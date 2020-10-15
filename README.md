@@ -13,7 +13,7 @@ The `compak` package provided a discrete associated kernel smoother for
 estimating probability mass functions using the mean-parametrised
 Conway-Maxwell-Poisson (COMP) distribution of [Huang
 (2017)](https://doi.org/10.1177%2F1471082X17697749). Two automated
-bandwidth selection approaches, one based on minimizing Kullback-Leidler
+bandwidth selection approaches, one based on minimizing Kullback-Leibler
 divergence and another based on cross-validation, are also implemented.
 
 ## Installation

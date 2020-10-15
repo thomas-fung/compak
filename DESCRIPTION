@@ -13,19 +13,23 @@ Authors@R:
     person(given = "Alan", 
     family = "Huang", role = "aut",
     email = "alan.huang@uq.edu.au"))
-Description: Discrete associated kernel smoother for estimating probability mass functions using the mean-parametrised Conway-Maxwell-Poisson (COMP) distribution. Two automated bandwidth selection approaches, one based on minimizing Kullback-Leidler divergence and another based on cross-validation, are also implemented. 
+Description: Discrete associated kernel smoother for estimating probability mass functions using the mean-parametrised Conway-Maxwell-Poisson (COMP) distribution. Two automated bandwidth selection approaches, one based on minimizing Kullback-Leibler divergence and another based on cross-validation, are also implemented. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
-    spelling
+    spelling,
+    testthat
 Language: en-US
 Imports: 
     LaplacesDemon,
     lifecycle,
     parallel,
     mpcmp,
-    rlist
+    rlist,
+    stats
 RdMacros: lifecycle
+Depends: 
+    R (>= 2.10)

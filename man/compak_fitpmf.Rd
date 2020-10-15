@@ -4,23 +4,45 @@
 \alias{compak_fitpmf}
 \title{Fit compak smoother at values x using a sample of data}
 \usage{
-compak_fitpmf(x, a.sample, h = NULL, bandwidth = c("KL", "CV"), ...)
+compak_fitpmf(
+  a.sample,
+  x = NULL,
+  h = NULL,
+  nu = NULL,
+  bandwidth_optim = "KL",
+  ...
+)
 }
 \arguments{
-\item{x}{numeric vector: the points of the grid at which the density is to be estimated.}
-
 \item{a.sample}{numeric vector: the data sample from which estimate is to be computed.}
 
-\item{h}{numeric: the bandwidth or smoothing parameter.}
+\item{x}{Either \code{NULL} or a numeric vector: the points of the grid at which the density is to be estimated. If none is provided, the range of \code{a.sample} will be used.}
 
-\item{...}{other arguments passed to bandwidth selection, such as \code{from} and \code{to}.}
+\item{h, nu}{numeric: the bandwidth or smoothing parameter. Only one is needed and they are related by \code{nu} = 1/\code{h}. If neither \code{h} nor \code{nu} is provided, a bandwidth selection will be carried out.}
+
+\item{bandwidth_optim}{character; the type of bandwidth selection to be used. Possible values are "KL" (Kullback-Leibler divergence) and "CV" (cross-validation).}
+
+\item{...}{other arguments passed to bandwidth selection, such as \code{interval}.}
 }
 \value{
-
+An object class 'compak' is a list containing the following components:
+\item{f.cmp}{the estimated p.m.f. values}
+\item{data}{The data - same as input \code{a.sample}}
+\item{h}{The bandwidth used to compute the density estimate}
+\item{nu}{The dispersion used to compute the density estimate}
+\item{x}{The coordinates of the points where the density is estimated}
 }
 \description{
-The function estimates the p.m.f. using the Conway-Maxwell-Poisson associated kernels (compak) smoother. Bandwidth can be specified as \code{h} or one can be provided by using cross-validation or minimising Kullback-Leibler divergence.
+The function estimates the p.m.f. using the Conway-Maxwell-Poisson associated kernels (compak) smoother. Bandwidth can be specified as \code{h} or \code{nu} where \code{nu}= 1/\code{h}. If none is specified, one can be provided by using cross-validation or minimising Kullback-Leibler divergence.
 }
 \examples{
+### Huang et, al (2020) Page 10
+data(days)
+fit.compak2 <- compak_fitpmf(days, 10:40, bandwidth_optim = "CV")
 
+### Huang et, al (2020) Page 9
+\donttest{
+data(somites)
+fit.compak <- compak_fitpmf(somites, 60:180, bandwidth_optim = "CV")
+}
 }

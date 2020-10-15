@@ -1,0 +1,44 @@
+bibentry(bibtype = "Article",
+  title        = "A consistent second-order discrete kernal smoother",
+  author       = c(person(given = "Alan",
+                          family = "Huang",
+                          email = "alan.huang@uq.edu.au"),
+                          person(given = "Luca",
+                          family = "Sippel",
+                          email = "lucas.sippel@uq.net.au"),
+                  person(given = "Thomas",
+                          family = "Fung",
+                          email = "thomas.fung.dr@gmail.com")
+                   ),
+  journal  = "Under revision.",
+  year     = "2020",
+  volume   = "",
+  number   = "",
+  pages    = "",
+  url      = "",
+  textVersion = paste("Huang, A., Sippel, L. and Fung, T. (2020). _A consistent second-order discrete kernal smoother_. Under reivison."
+  ),
+  header  = "To cite the reference paper in publications use:"
+)
+
+bibentry(bibtype = "Manual",
+  title        = "compak: Conway-Maxwell-Poisson Associated Kernel",
+  author       = c(person(given = "Alan",
+                          family = "Huang",
+                          email = "alan.huang@uq.edu.au"),
+                          person(given = "Luca",
+                          family = "Sippel",
+                          email = "lucas.sippel@uq.net.au"),
+                  person(given = "Thomas",
+                          family = "Fung",
+                          email = "thomas.fung.dr@gmail.com")
+                   ),
+  journal  = "Under revision.",
+  year     = "2020",
+  note     = "R package version 0.1",
+  url      = "https://CRAN.R-project.org/package=compak",
+  textVersion = paste(
+  "Huang, A., Sippel, L. and Fung, T. (2020). _compak: Conway-Maxwell-Poisson Associated Kernel_. R package version 0.1. <URL: https://CRAN.R-project.org/package=compak>."
+  ),
+  header  = "To cite the compak package in publications use:"
+)

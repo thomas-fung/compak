@@ -4,16 +4,12 @@
 \alias{compak_lambdaZ}
 \title{Retrieve logZ and logLambda values from the precomputed data frame}
 \usage{
-compak_lambdaZ(mu, nu, logZ, logLambda)
+compak_lambdaZ(mu, nu)
 }
 \arguments{
-\item{mu}{numeric: a vector of integer.}
+\item{mu}{numeric: a vector of integers that are greater than 1, representing the means}
 
-\item{nu}{numeric: a vector of integer.}
-
-\item{logZ}{numeric: a matrix of precomputed values for logZ.}
-
-\item{logLambda}{numeric: a matrix of precomputed values for logLambda.}
+\item{nu}{numeric: a vector of positive numbers, representing the dispersion}
 }
 \value{
 A list containing the following components:
@@ -22,6 +18,8 @@ A list containing the following components:
 \item{logZ}{a numeric vector of log-Z values based on mu and nu.}
 }
 \description{
-Retrieve logZ and logLambda values from the precomputed data frame
+\code{logZ} and \code{logLambda} values are precomputed and stored in the \code{pc_data} data frame. This function would retrieve it based on the \code{mu} and \code{nu}.
+
+The values are computed based on integer-value of \code{mu}>=1 and at a 0.1 grid of \code{nu}.
 }
 \keyword{internal}

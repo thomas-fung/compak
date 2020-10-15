@@ -1,39 +1,33 @@
 #' Calculates the optimal bandwidth via minimising Kullback-Leibler divergence
 #'
 #' @param a.sample numeric vector; the data sample from which the estimate is to be computed.
-#' @param from,to  numeric; the range over which to optimize the bandwidth.
-#' @param parallel logical: if \code{FALSE} (defualt), parallel process will not be used to evaluate the compak smoother.
+#' @param x a numeric vector: the points of the grid at which the density is to be estimated.
+#' @param interval  numeric vector; the end-points of the interval to be searched for the best bandwidth.
+#' @param parallel logical: if \code{FALSE} (default), parallel process will not be used to evaluate the compak smoother.
 #'
-#' @return The optimal bandwidth parameter within the range.
+#' @return The optimal bandwidth parameter within the \code{interval}
 #' @export
 #'
 #' @examples
-#' days <- c(rep(25,5), rep(26,5),rep(27,7),rep(28,8),
-#' rep(29,11),rep(30,2),rep(31,1),rep(32,4),
-#' rep(33,4),rep(34,2),rep(35,2))
-#' h.KL <- compak_KLbandwidth(days, from = 0.025, parallel=F)
+#' data(days)
+#' h.KL <- compak_KLbandwidth(days)
 #'
-compak_KLbandwidth <- function(a.sample, from = 0, to = 1, parallel = FALSE){
-
-  # range of x values to compute KL divergence on
-  range.x <- 0:200
-
+compak_KLbandwidth <- function(a.sample, x = 0:200, interval = c(0.025, 1), parallel = FALSE){
   # fit the Poisson pmf
   mu <- mean(a.sample)
-  f.pois <- dpois(x=range.x, lambda=mu)
+  f.pois <- stats::dpois(x= x, lambda=mu)
 
   # fit the Neg-Bin pmf via Method of Moments if counts are "overdispersed"
-  size <- mu^2/(var(a.sample)-mu)
-  if(size > 0)  f.nb <- dnbinom(range.x, mu=mu, size=size)
+  size <- mu^2/(stats::var(a.sample)-mu)
+  if(size > 0)  f.nb <- stats::dnbinom(x, mu=mu, size=size)
 
-
-  # We optimize over this function. Requires Laplaces Demon library
+  # We optimize over this function.
   MKL <- function(h, a.sample){
     # fit the CMP_mu kde with dispersion 1/h
     if (parallel) {
-      fhat <- compak_evalpmf(range.x, a.sample, 1/h)
+      fhat <- compak_evalpmf(a.sample, x, nu = 1/h, parallel = TRUE)
     } else {
-      fhat <- compak_evalpmf(range.x, a.sample, 1/h, parallel=FALSE)
+      fhat <- compak_evalpmf(a.sample, x, nu = 1/h, parallel= FALSE)
     }
 
     #KL1 = KLD(fhat, f.pois)$sum.KLD.px.py
@@ -49,7 +43,7 @@ compak_KLbandwidth <- function(a.sample, from = 0, to = 1, parallel = FALSE){
     return(max(KL1, KL2))
   }
 
-  h_kl <- optimize(f=MKL, interval=c(from, to), a.sample=a.sample)$minimum
+  h_kl <- stats::optimize(f=MKL, interval= interval, a.sample=a.sample)$minimum
 
   return(h_kl)
 }

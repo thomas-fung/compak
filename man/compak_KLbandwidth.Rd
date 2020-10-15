@@ -4,25 +4,30 @@
 \alias{compak_KLbandwidth}
 \title{Calculates the optimal bandwidth via minimising Kullback-Leibler divergence}
 \usage{
-compak_KLbandwidth(a.sample, from = 0, to = 1, parallel = FALSE)
+compak_KLbandwidth(
+  a.sample,
+  x = 0:200,
+  interval = c(0.025, 1),
+  parallel = FALSE
+)
 }
 \arguments{
 \item{a.sample}{numeric vector; the data sample from which the estimate is to be computed.}
 
-\item{from, to}{numeric; the range over which to optimize the bandwidth.}
+\item{x}{a numeric vector: the points of the grid at which the density is to be estimated.}
 
-\item{parallel}{logical: if \code{FALSE} (defualt), parallel process will not be used to evaluate the compak smoother.}
+\item{interval}{numeric vector; the end-points of the interval to be searched for the best bandwidth.}
+
+\item{parallel}{logical: if \code{FALSE} (default), parallel process will not be used to evaluate the compak smoother.}
 }
 \value{
-The optimal bandwidth parameter within the range.
+The optimal bandwidth parameter within the \code{interval}
 }
 \description{
 Calculates the optimal bandwidth via minimising Kullback-Leibler divergence
 }
 \examples{
-days <- c(rep(25,5), rep(26,5),rep(27,7),rep(28,8),
-rep(29,11),rep(30,2),rep(31,1),rep(32,4),
-rep(33,4),rep(34,2),rep(35,2))
-h.KL <- compak_KLbandwidth(days, from = 0.025, parallel=F)
+data(days)
+h.KL <- compak_KLbandwidth(days)
 
 }

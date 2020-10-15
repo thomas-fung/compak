@@ -3,7 +3,6 @@
 #' @param f1,f2 numeric vectors: two density functions
 #'
 #' @return The Kullback-Leibler distance between the two density functions.
-#' @export
 #' @keywords internal
 #'
 compak_KL = function(f1, f2){
