@@ -1,12 +1,11 @@
 Aleurodicus
-analyse
 Biometrika
-centred
 cmp
 CMP
 crepitans
 devtools
 dispersus
+ggplot
 Github
 Hura
 kde
@@ -17,8 +16,6 @@ Leidler
 Lifecycle
 logLambda
 logZ
-minimising
-parametrised
-precomputed
-somites
-whitefly
+pmf
+Poisson
+Russel

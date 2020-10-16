@@ -31,6 +31,7 @@ An object class 'compak' is a list containing the following components:
 \item{h}{The bandwidth used to compute the density estimate}
 \item{nu}{The dispersion used to compute the density estimate}
 \item{x}{The coordinates of the points where the density is estimated}
+\item{bandwidth_optim}{the type of bandwidth selection used - same as input}
 }
 \description{
 The function estimates the p.m.f. using the Conway-Maxwell-Poisson associated kernels (compak) smoother. Bandwidth can be specified as \code{h} or \code{nu} where \code{nu}= 1/\code{h}. If none is specified, one can be provided by using cross-validation or minimising Kullback-Leibler divergence.

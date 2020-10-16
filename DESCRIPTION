@@ -21,15 +21,18 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     spelling,
-    testthat
-Language: en-US
+    testthat,
+    vdiffr
+Language: en-GB
 Imports: 
     LaplacesDemon,
     lifecycle,
     parallel,
     mpcmp,
     rlist,
-    stats
+    stats,
+    ggplot2,
+    graphics
 RdMacros: lifecycle
 Depends: 
     R (>= 2.10)

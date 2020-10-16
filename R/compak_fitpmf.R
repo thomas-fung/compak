@@ -15,6 +15,7 @@
 #' \item{h}{The bandwidth used to compute the density estimate}
 #' \item{nu}{The dispersion used to compute the density estimate}
 #' \item{x}{The coordinates of the points where the density is estimated}
+#' \item{bandwidth_optim}{the type of bandwidth selection used - same as input}
 #' @export
 #'
 #' @examples
@@ -48,10 +49,13 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
     } else {
       stop('"bandwidth_optim" can only be "KL" or "CV"')
     }
+  } else {
+    bandwidth_optim <- "user_specified"
   }
 
   f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1/h, parallel = F)
-  out <- list("f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1/h, data = a.sample)
+  out <- list("f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1/h, data = a.sample,
+              bandwidth_optim = bandwidth_optim)
   class(out) <- "compak"
   return(out)
 }
