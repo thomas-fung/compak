@@ -29,35 +29,37 @@
 #' data(somites)
 #' fit.compak <- compak_fitpmf(somites, 60:180, bandwidth_optim = "CV")
 #' }
-
+#'
 compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
                           workers = 1L,
-                         bandwidth_optim = "KL", ...){
-
+                          bandwidth_optim = "KL", ...) {
   if (!is.null(h) && !is.null(nu) && h != nu) {
     stop("specify 'h' or 'nu' but not both.")
-  } else if (!is.null(nu)){
-    h <- 1/nu
+  } else if (!is.null(nu)) {
+    h <- 1 / nu
   }
   if (is.null(x)) {
     x <- min(a.sample):max(a.sample)
   }
 
-  if (is.null(h)){
-    if(bandwidth_optim == "KL"){
-      h <- compak_KLbandwidth(a.sample, workers = workers)
-    } else if (bandwidth_optim == "CV"){
-      h <- compak_CVbandwidth(a.sample, ...)
+  if (is.null(h)) {
+    if (bandwidth_optim == "KL") {
+      h <- compak_KLbandwidth(a.sample, x = x, workers = workers, ...)
+    } else if (bandwidth_optim == "CV") {
+      h <- compak_CVbandwidth(a.sample, workers = workers, ...)
     } else {
       stop('"bandwidth_optim" can only be "KL" or "CV"')
     }
   } else {
+    warning("The bandwidth_optim option is ignored as user provided a value for h.")
     bandwidth_optim <- "user_specified"
   }
 
-  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1/h, workers = workers)
-  out <- list("f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1/h, data = a.sample,
-              bandwidth_optim = bandwidth_optim)
+  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1 / h, workers = workers)
+  out <- list(
+    "f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1 / h, data = a.sample,
+    bandwidth_optim = bandwidth_optim
+  )
   class(out) <- "compak"
   return(out)
 }

@@ -9,6 +9,7 @@ compak_fitpmf(
   x = NULL,
   h = NULL,
   nu = NULL,
+  workers = 1L,
   bandwidth_optim = "KL",
   ...
 )
@@ -19,6 +20,8 @@ compak_fitpmf(
 \item{x}{Either \code{NULL} or a numeric vector: the points of the grid at which the density is to be estimated. If none is provided, the range of \code{a.sample} will be used.}
 
 \item{h, nu}{numeric: the bandwidth or smoothing parameter. Only one is needed and they are related by \code{nu} = 1/\code{h}. If neither \code{h} nor \code{nu} is provided, a bandwidth selection will be carried out.}
+
+\item{workers}{numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde}
 
 \item{bandwidth_optim}{character; the type of bandwidth selection to be used. Possible values are "KL" (Kullback-Leibler divergence) and "CV" (cross-validation).}
 
@@ -46,4 +49,5 @@ fit.compak2 <- compak_fitpmf(days, 10:40, bandwidth_optim = "CV")
 data(somites)
 fit.compak <- compak_fitpmf(somites, 60:180, bandwidth_optim = "CV")
 }
+
 }

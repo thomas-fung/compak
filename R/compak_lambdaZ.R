@@ -13,17 +13,17 @@
 #' \item{logZ}{a numeric vector of log-Z values based on mu and nu.}
 #'
 #' @keywords internal
-compak_lambdaZ <- function(mu, nu){
+compak_lambdaZ <- function(mu, nu) {
   mu.index <- floor(mu)
-  nu.index <- nu*10 + 1;
+  nu.index <- nu * 10 + 1
   nu.index.lower <- floor(nu.index)
   nu.index.upper <- ceiling(nu.index)
-  weight <- nu.index%%1
+  weight <- nu.index %% 1
   logLambda.lower <- pc_data$logLambda[mu.index, nu.index.lower]
   logLambda.upper <- pc_data$logLambda[mu.index, nu.index.upper]
-  logLambda.out <- (1-weight)*logLambda.lower + weight*logLambda.upper
+  logLambda.out <- (1 - weight) * logLambda.lower + weight * logLambda.upper
   logZ.lower <- pc_data$logZ[mu.index, nu.index.lower]
   logZ.upper <- pc_data$logZ[mu.index, nu.index.upper]
-  logZ.out <- (1-weight)*logZ.lower + weight*logZ.upper
-  return(list("logLambda"=logLambda.out, "logZ"=logZ.out))
+  logZ.out <- (1 - weight) * logZ.lower + weight * logZ.upper
+  return(list("logLambda" = logLambda.out, "logZ" = logZ.out))
 }

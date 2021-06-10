@@ -14,57 +14,60 @@
 #' data(days)
 #' # The bandwidth h can be the one obtained by cross validation.
 #' (h.CV <- compak_CVbandwidth(days))
-#' compak_evalpmf(days, 20:40, h = 0.0250636, workers = 1)
-compak_evalpmf = function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L){
+#' compak_evalpmf(days, 20:40, h = h.CV, workers = 1)
+compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L) {
   # fits CMP_mu discrete kernel pmf P(X = x) smoother for a.sample of counts
   # evaluated at a (vector of) point(s) x
-  if (is.null(h) && is.null(nu)){
+  if (is.null(h) && is.null(nu)) {
     stop('argument "h" (bandwidth) and "nu" are both missing, with no default. Please specify one of them.')
   } else if (!is.null(h) && !is.null(nu) && h != nu) {
     stop("specify 'h' or 'nu' but not both.")
-  } else if (!is.null(nu)){
-    h <- 1/nu
-  } else if (!is.null(h)){
-    nu <- 1/h
+  } else if (!is.null(nu)) {
+    h <- 1 / nu
+  } else if (!is.null(h)) {
+    nu <- 1 / h
   }
-  if (!is.numeric(workers) || (floor(workers) != workers && workers >0)) {
+  if (!is.numeric(workers) || floor(workers) != workers || workers < 0) {
     warning("workers must be a positive integer. Resetting it to default = 1.")
+    workers <- 1
   }
 
-  # for parallel evaluating the kernels (requires parallel library)
-  #numCores <- parallel::detectCores()
   if (is.null(x)) {
     x <- min(a.sample):max(a.sample)
   }
   npoints <- length(x)
   fhat <- vector(length = npoints)
   samp.points <- length(a.sample)
-  #first get number of observations for each observed count
+  # first get number of observations for each observed count
   counts <- list()
-  for(i in a.sample){
-    if(!is.null(counts[[toString(i)]])){
+  for (i in a.sample) {
+    if (!is.null(counts[[toString(i)]])) {
       counts[[toString(i)]] <- counts[[toString(i)]] + 1
     }
-    else{
-      counts[[toString(i)]] <-  1
+    else {
+      counts[[toString(i)]] <- 1
     }
   }
 
   # evaluate kernels
   keys <- rlist::list.names(counts) # this is the list of distinct count values observed as strings
-  if (workers > 1){
+  # for parallel evaluating the kernels (requires future & furrr library)
+  if (workers > 1) {
     future::plan(future::multisession, workers = workers)
     results <- furrr::future_map(keys, ~ compak_evalkernel(.x,
-                                                           counts = counts,
-                                                           x = x, nu = nu))
-    future::plan(sequential)
+      counts = counts,
+      x = x, nu = nu
+    ))
+    future::plan(future::sequential)
   } else {
-    results <- purrr::map(keys, ~ compak_evalkernel(.x, counts = counts,
-                                             x = x, nu = nu))
+    results <- purrr::map(keys, ~ compak_evalkernel(.x,
+      counts = counts,
+      x = x, nu = nu
+    ))
   }
 
   # sum kernels together
-  for(ker in results){
+  for (ker in results) {
     fhat <- fhat + ker
   }
 

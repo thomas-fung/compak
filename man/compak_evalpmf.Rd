@@ -25,5 +25,5 @@ This function computes the density using the CMP_mu discrete kernel smooth over 
 data(days)
 # The bandwidth h can be the one obtained by cross validation.
 (h.CV <- compak_CVbandwidth(days))
-compak_evalpmf(days, 20:40, h = 0.0250636, workers = 1)
+compak_evalpmf(days, 20:40, h = h.CV, workers = 1)
 }

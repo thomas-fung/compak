@@ -24,5 +24,4 @@ Calculates the optimal bandwidth via minimising Kullback-Leibler divergence
 \examples{
 data(days)
 h.KL <- compak_KLbandwidth(days)
-
 }

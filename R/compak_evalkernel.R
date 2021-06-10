@@ -9,9 +9,9 @@
 #'
 #' @return The kernel values.
 #' @keywords internal
-compak_evalkernel = function(key, counts, x, nu){
-  obvs = counts[[key]]
-  X_i = strtoi(key)
-  probs = obvs*compak_dcomp(x=x, mu=X_i, nu=nu)
+compak_evalkernel <- function(key, counts, x, nu) {
+  obvs <- counts[[key]]
+  X_i <- strtoi(key)
+  probs <- obvs * compak_dcomp(x = x, mu = X_i, nu = nu)
   return(probs)
 }
