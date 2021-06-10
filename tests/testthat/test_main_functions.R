@@ -6,8 +6,8 @@ h.KL <- compak_KLbandwidth(days)
 h.KL2 <- compak_KLbandwidth(days, interval = c(0.5, 0.6))
 h.CV <- compak_CVbandwidth(days)
 range.days <- 20:40
-f.cmp_CV <- compak_evalpmf(days, 20:40, nu = 1/h.CV, parallel = F)
-f.cmp_KL <- compak_evalpmf(days, 20:40, nu = 1/h.KL, parallel = F)
+f.cmp_CV <- compak_evalpmf(days, 20:40, nu = 1/h.CV, workers = 1)
+f.cmp_KL <- compak_evalpmf(days, 20:40, nu = 1/h.KL, workers = 1)
 fit.compak_CV <- compak_fitpmf(days, range.days, bandwidth = "CV")
 fit.compak_KL <- compak_fitpmf(days, range.days, bandwidth = "KL")
 

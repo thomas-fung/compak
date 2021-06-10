@@ -5,6 +5,7 @@
 #' @param a.sample numeric vector: the data sample from which estimate is to be computed.
 #' @param x Either \code{NULL} or a numeric vector: the points of the grid at which the density is to be estimated. If none is provided, the range of \code{a.sample} will be used.
 #' @param h,nu numeric: the bandwidth or smoothing parameter. Only one is needed and they are related by \code{nu} = 1/\code{h}. If neither \code{h} nor \code{nu} is provided, a bandwidth selection will be carried out.
+#' @param workers numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde
 #' @param bandwidth_optim character; the type of bandwidth selection to be used. Possible values are "KL" (Kullback-Leibler divergence) and "CV" (cross-validation).
 #' @param ... other arguments passed to bandwidth selection, such as \code{interval}.
 #'
@@ -30,6 +31,7 @@
 #' }
 
 compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
+                          workers = 1L,
                          bandwidth_optim = "KL", ...){
 
   if (!is.null(h) && !is.null(nu) && h != nu) {
@@ -43,7 +45,7 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
 
   if (is.null(h)){
     if(bandwidth_optim == "KL"){
-      h <- compak_KLbandwidth(a.sample, parallel = F)
+      h <- compak_KLbandwidth(a.sample, workers = workers)
     } else if (bandwidth_optim == "CV"){
       h <- compak_CVbandwidth(a.sample, ...)
     } else {
@@ -53,7 +55,7 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
     bandwidth_optim <- "user_specified"
   }
 
-  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1/h, parallel = F)
+  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1/h, workers = workers)
   out <- list("f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1/h, data = a.sample,
               bandwidth_optim = bandwidth_optim)
   class(out) <- "compak"

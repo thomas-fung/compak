@@ -4,12 +4,7 @@
 \alias{compak_KLbandwidth}
 \title{Calculates the optimal bandwidth via minimising Kullback-Leibler divergence}
 \usage{
-compak_KLbandwidth(
-  a.sample,
-  x = 0:200,
-  interval = c(0.025, 1),
-  parallel = FALSE
-)
+compak_KLbandwidth(a.sample, x = 0:200, interval = c(0.025, 1), workers = 1L)
 }
 \arguments{
 \item{a.sample}{numeric vector; the data sample from which the estimate is to be computed.}
@@ -18,7 +13,7 @@ compak_KLbandwidth(
 
 \item{interval}{numeric vector; the end-points of the interval to be searched for the best bandwidth.}
 
-\item{parallel}{logical: if \code{FALSE} (default), parallel process will not be used to evaluate the compak smoother.}
+\item{workers}{numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the compak smoother.}
 }
 \value{
 The optimal bandwidth parameter within the \code{interval}

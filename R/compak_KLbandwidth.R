@@ -3,7 +3,7 @@
 #' @param a.sample numeric vector; the data sample from which the estimate is to be computed.
 #' @param x a numeric vector: the points of the grid at which the density is to be estimated.
 #' @param interval  numeric vector; the end-points of the interval to be searched for the best bandwidth.
-#' @param parallel logical: if \code{FALSE} (default), parallel process will not be used to evaluate the compak smoother.
+#' @param workers numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the compak smoother.
 #'
 #' @return The optimal bandwidth parameter within the \code{interval}
 #' @export
@@ -12,7 +12,7 @@
 #' data(days)
 #' h.KL <- compak_KLbandwidth(days)
 #'
-compak_KLbandwidth <- function(a.sample, x = 0:200, interval = c(0.025, 1), parallel = FALSE){
+compak_KLbandwidth <- function(a.sample, x = 0:200, interval = c(0.025, 1), workers =1L){
   # fit the Poisson pmf
   mu <- mean(a.sample)
   f.pois <- stats::dpois(x= x, lambda=mu)
@@ -24,11 +24,7 @@ compak_KLbandwidth <- function(a.sample, x = 0:200, interval = c(0.025, 1), para
   # We optimize over this function.
   MKL <- function(h, a.sample){
     # fit the CMP_mu kde with dispersion 1/h
-    if (parallel) {
-      fhat <- compak_evalpmf(a.sample, x, nu = 1/h, parallel = TRUE)
-    } else {
-      fhat <- compak_evalpmf(a.sample, x, nu = 1/h, parallel= FALSE)
-    }
+      fhat <- compak_evalpmf(a.sample, x, nu = 1/h, workers = workers)
 
     #KL1 = KLD(fhat, f.pois)$sum.KLD.px.py
     KL1 <- compak_KL(fhat, f.pois)

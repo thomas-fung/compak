@@ -4,14 +4,14 @@
 \alias{compak_CVbandwidth}
 \title{Calculates the optimal bandwidth via cross-validation}
 \usage{
-compak_CVbandwidth(a.sample, interval = c(0.025, 1), parallel = F)
+compak_CVbandwidth(a.sample, interval = c(0.025, 1), workers = 1L)
 }
 \arguments{
 \item{a.sample}{numeric vector; the data sample from which the estimate is to be computed.}
 
 \item{interval}{numeric vector; the end-points of the interval to be searched for the best bandwidth.}
 
-\item{parallel}{logical: if \code{FALSE} (default), parallel process will not be used to evaluate the compak smoother.}
+\item{workers}{numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde}
 }
 \value{
 The optimal bandwidth parameter within the \code{interval}.

@@ -11,8 +11,8 @@
 #' @examples
 #' data(days)
 #' fit <- compak_fitpmf(days, bandwidth = "CV")
-#' gg_plot(fit)
-gg_plot <- function(x, ...){
+#' autoplot(fit)
+autoplot.compak <- function(x, ...){
   p <- ggplot(data.frame(z = x$data)) +
     geom_bar(aes(x = z, y = ..count../sum(..count..))) +
     xlim(min(x$data-2), max(x$data+2)) +

@@ -4,7 +4,7 @@
 \alias{compak_evalpmf}
 \title{Fits CMP_mu discrete kernel smoother for a sample of counts}
 \usage{
-compak_evalpmf(a.sample, x = NULL, h = NULL, nu = NULL, parallel = FALSE)
+compak_evalpmf(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L)
 }
 \arguments{
 \item{a.sample}{numeric vector: the data sample from which estimate is to be computed.}
@@ -13,7 +13,7 @@ compak_evalpmf(a.sample, x = NULL, h = NULL, nu = NULL, parallel = FALSE)
 
 \item{h, nu}{numeric: the bandwidth or smoothing parameter. Only one is needed and they are related by nu = 1/h.}
 
-\item{parallel}{logical; determines whether to use parallel process to evaluate the kde}
+\item{workers}{numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde}
 }
 \value{
 Return the estimated p.m.f. values.
@@ -24,6 +24,6 @@ This function computes the density using the CMP_mu discrete kernel smooth over 
 \examples{
 data(days)
 # The bandwidth h can be the one obtained by cross validation.
-# (h.CV <- compak_CVbandwidth(days))
-compak_evalpmf(days, 20:40, h = 0.0250636, parallel = FALSE)
+(h.CV <- compak_CVbandwidth(days))
+compak_evalpmf(days, 20:40, h = 0.0250636, workers = 1)
 }
