@@ -17,6 +17,7 @@
 #' \item{nu}{The dispersion used to compute the density estimate}
 #' \item{x}{The coordinates of the points where the density is estimated}
 #' \item{bandwidth_optim}{the type of bandwidth selection used - same as input}
+#' \item{kernel.est}{a list that contains the estimated kernel at each grid point}
 #' @export
 #'
 #' @examples
@@ -42,11 +43,25 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
     x <- min(a.sample):max(a.sample)
   }
 
+  if (!is.numeric(workers) || floor(workers) != workers || workers < 0) {
+    warning("workers must be a positive integer. Resetting it to default = 1.")
+    workers <- 1
+  } else {
+    if (workers > parallelly::availableCores()){
+      warning("The number of requested workers is greater than what's available on your system. Reset workers to what's available.")
+      workers <- parallelly::availableCores()
+    }
+  }
+
+  if (workers > 1) {
+    future::plan(future::multisession, workers = workers)
+  }
+
   if (is.null(h)) {
     if (bandwidth_optim == "KL") {
-      h <- compak_KLbandwidth(a.sample, x = x, workers = workers, ...)
+      h <- compak_KLbandwidth(a.sample, workers = 1, ...)
     } else if (bandwidth_optim == "CV") {
-      h <- compak_CVbandwidth(a.sample, workers = workers, ...)
+      h <- compak_CVbandwidth(a.sample, workers = 1, ...)
     } else {
       stop('"bandwidth_optim" can only be "KL" or "CV"')
     }
@@ -55,11 +70,15 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
     bandwidth_optim <- "user_specified"
   }
 
-  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1 / h, workers = workers)
+  f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1 / h, workers = 1)
   out <- list(
-    "f.cmp" = f.cmp, "x" = x, "h" = h, "nu" = 1 / h, data = a.sample,
-    bandwidth_optim = bandwidth_optim
+    "f.cmp" = f.cmp$f.cmp, "x" = x, "h" = h, "nu" = 1 / h, data = a.sample,
+    bandwidth_optim = bandwidth_optim,
+    kernel.est = f.cmp$kernel.est
   )
+  if (workers > 1) {
+    future::plan(future::sequential)
+  }
   class(out) <- "compak"
   return(out)
 }

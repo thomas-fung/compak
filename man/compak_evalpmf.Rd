@@ -16,7 +16,9 @@ compak_evalpmf(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L)
 \item{workers}{numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde}
 }
 \value{
-Return the estimated p.m.f. values.
+A list containing the following components:
+\item{f.cmp}{the estimated p.m.f. values}
+\item{kernel.est}{a list that contains the estimated kernel at each grid point}
 }
 \description{
 This function computes the density using the CMP_mu discrete kernel smooth over a grid of points using the given bandwidth \code{h} or dispersion parameter \code{nu}.

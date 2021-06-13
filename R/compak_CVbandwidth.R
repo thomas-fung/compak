@@ -15,6 +15,16 @@ compak_CVbandwidth <- function(a.sample, interval = c(0.025, 1), workers = 1L) {
   # inputs a.sample of data
   # interval specifies range of bandwidth to optimize over
 
+  if (!is.numeric(workers) || floor(workers) != workers || workers < 0) {
+    warning("workers must be a positive integer. Resetting it to default = 1.")
+    workers <- 1
+  } else {
+    if (workers > parallelly::availableCores()){
+      warning("The number of requested workers is greater than what's available on your system. Reset workers to what's available.")
+      workers <- parallelly::availableCores()
+    }
+  }
+
   likelihood.cv <- function(h, a.sample) {
     n <- length(a.sample)
     f.cv <- matrix(0, nrow = n, ncol = 1)
@@ -22,12 +32,18 @@ compak_CVbandwidth <- function(a.sample, interval = c(0.025, 1), workers = 1L) {
     for (i in 1:n) {
       f.cv[i] <- compak_evalpmf(a.sample[-i],
         x = a.sample[i], nu = nu,
-        workers = workers
-      )
+        workers = 1
+      )$f.cmp
     }
     return(-sum(log(f.cv)))
   }
-
+  if (workers > 1) {
+    future::plan(future::multisession, workers = workers)
+  }
   h_cv <- stats::optimize(f = likelihood.cv, interval = interval, a.sample = a.sample)$minimum
+  if (workers > 1) {
+    future::plan(future::sequential)
+  }
+
   return(h_cv)
 }

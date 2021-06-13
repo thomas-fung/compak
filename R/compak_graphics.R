@@ -15,7 +15,6 @@
 autoplot.compak <- function(x, ...) {
   p <- ggplot(data.frame(z = x$data)) +
     geom_bar(aes(x = z, y = ..count.. / sum(..count..))) +
-    xlim(min(x$data - 2), max(x$data + 2)) +
     geom_pointrange(aes(
       x = x,
       y = y,
@@ -31,6 +30,7 @@ autoplot.compak <- function(x, ...) {
       subtitle = paste0("bandwidth = ", round(x$h, 4)),
       y = "Probability"
     )
+
   return(p)
 }
 

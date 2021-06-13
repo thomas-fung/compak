@@ -6,7 +6,10 @@
 #' @param h,nu numeric: the bandwidth or smoothing parameter. Only one is needed and they are related by nu = 1/h.
 #' @param workers numeric; a positive integer to represent the number of cores used for parallel processing to evaluate the kde
 #'
-#' @return Return the estimated p.m.f. values.
+#' @return
+#' A list containing the following components:
+#' \item{f.cmp}{the estimated p.m.f. values}
+#' \item{kernel.est}{a list that contains the estimated kernel at each grid point}
 #'
 #' @export
 #'
@@ -28,8 +31,13 @@ compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L
     nu <- 1 / h
   }
   if (!is.numeric(workers) || floor(workers) != workers || workers < 0) {
-    warning("workers must be a positive integer. Resetting it to default = 1.")
+    warning("workers must be a positive integer. Reset it to default = 1.")
     workers <- 1
+  } else {
+    if (workers > parallelly::availableCores()){
+      warning("The number of requested workers is greater than what's available on your system. Reset workers to what's available.")
+      workers <- parallelly::availableCores()
+    }
   }
 
   if (is.null(x)) {
@@ -54,23 +62,21 @@ compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L
   # for parallel evaluating the kernels (requires future & furrr library)
   if (workers > 1) {
     future::plan(future::multisession, workers = workers)
-    results <- furrr::future_map(keys, ~ compak_evalkernel(.x,
-      counts = counts,
-      x = x, nu = nu
-    ))
+  }
+  results <- furrr::future_map(keys, ~ compak_evalkernel(.x,
+    counts = counts,
+    x = x, nu = nu
+  ))
+  if (workers > 1) {
     future::plan(future::sequential)
-  } else {
-    results <- purrr::map(keys, ~ compak_evalkernel(.x,
-      counts = counts,
-      x = x, nu = nu
-    ))
   }
 
   # sum kernels together
   for (ker in results) {
     fhat <- fhat + ker
   }
-
   # return the normalised kde at the desired x values
-  return(fhat / samp.points)
+  # and the individual kernel estimates
+  out <- list(f.cmp = fhat / samp.points, kernel.est = results)
+  return(out)
 }
