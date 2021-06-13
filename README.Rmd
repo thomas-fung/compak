@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Codecov test coverage](https://codecov.io/gh/thomas-fung/compak/branch/main/graph/badge.svg)](https://codecov.io/gh/thomas-fung/compak?branch=main)
+[![R-CMD-check](https://github.com/thomas-fung/compak/workflows/R-CMD-check/badge.svg)](https://github.com/thomas-fung/compak/actions)
 <!-- badges: end -->
 
 The `compak` package provided a discrete associated kernel smoother for estimating probability mass functions using the mean-parametrised Conway-Maxwell-Poisson (COMP) distribution of [Huang (2017)](https://doi.org/10.1177%2F1471082X17697749). Two automated bandwidth selection approaches, one based on minimizing Kullback-Leidler divergence and another based on cross-validation, are also implemented. 

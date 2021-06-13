@@ -34,7 +34,7 @@ compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L
     warning("workers must be a positive integer. Reset it to default = 1.")
     workers <- 1
   } else {
-    if (workers > parallelly::availableCores()){
+    if (workers > parallelly::availableCores()) {
       warning("The number of requested workers is greater than what's available on your system. Reset workers to what's available.")
       workers <- parallelly::availableCores()
     }
