@@ -44,6 +44,7 @@ The function estimates the p.m.f. using the Conway-Maxwell-Poisson associated ke
 ### Huang et, al (2020) Page 10
 data(days)
 fit.compak2 <- compak_fitpmf(days, 10:40, bandwidth_optim = "CV")
+fit.compak2
 
 ### Huang et, al (2020) Page 9
 \donttest{

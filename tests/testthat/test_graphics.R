@@ -1,5 +1,6 @@
-context("Testing the two graphic functions")
+# Testing the two graphic functions
 
+library(ggplot2)
 data(days)
 fit <- compak_fitpmf(days, bandwidth = "KL")
 

@@ -17,6 +17,7 @@ results_flat <- tibble(y = flatten_dbl(results)) %>%
 
 p <- ggplot(results_flat) +
   geom_bar(aes(x = a.sample, y = ..count.. / sum(..count..)), data = tibble(a.sample = a.sample), size = 0.5) +
+  #geom_rug(aes(x = loc, colour = factor(loc)))+
   geom_point(aes(x = loc, y = -0.015, colour = factor(loc)), size = 0.5) +
   geom_col(aes(
     x = x, y = y / max(a.sample + 1),
@@ -46,7 +47,8 @@ sticker(p,
   package = "compak", p_color = "black",
   p_size = 10, s_x = 1, s_y = .8, s_width = 1.7,
   s_height = 0.7,
-  filename = "inst/figures/compak.png",
+  filename = "man/figures/compak.svg",
+  # filename = "man/figures/compak.png",
   h_color = "black",
   url = "https://github.com/thomas-fung/compak",
   u_size = 0.9, h_fill = "white"

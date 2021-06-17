@@ -3,17 +3,22 @@
 
 # compak
 
+# compak <img src='man/figures/logo.svg' align="right" height="139" />
+
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/thomas-fung/compak/branch/main/graph/badge.svg)](https://codecov.io/gh/thomas-fung/compak?branch=main)
+[![R-CMD-check](https://github.com/thomas-fung/compak/workflows/R-CMD-check/badge.svg)](https://github.com/thomas-fung/compak/actions)
 <!-- badges: end -->
 
 The `compak` package provided a discrete associated kernel smoother for
 estimating probability mass functions using the mean-parametrised
 Conway-Maxwell-Poisson (COMP) distribution of [Huang
 (2017)](https://doi.org/10.1177%2F1471082X17697749). Two automated
-bandwidth selection approaches, one based on minimizing Kullback-Leibler
+bandwidth selection approaches, one based on minimizing Kullback-Leidler
 divergence and another based on cross-validation, are also implemented.
 
 ## Installation
@@ -38,7 +43,7 @@ library(compak)
 If you use this package to analyse your data, please use the following
 citation:
 
-  - Sippel, L., Fung, T. and Huang, A. (2020). compak:
+-   Sippel, L., Fung, T. and Huang, A. (2020). compak:
     Conway-Maxwell-Poisson associated kernel. R package version
     0.0.0.9000.
 

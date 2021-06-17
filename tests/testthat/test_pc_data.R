@@ -1,6 +1,4 @@
-context("Testing the precompuate dataset")
-
-library(compak)
+# Testing the precompuate dataset
 
 test_that("Testing pc_data", {
   expect_equal(names(pc_data), c("logZ", "logLambda"))

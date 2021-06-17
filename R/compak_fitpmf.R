@@ -24,6 +24,7 @@
 #' ### Huang et, al (2020) Page 10
 #' data(days)
 #' fit.compak2 <- compak_fitpmf(days, 10:40, bandwidth_optim = "CV")
+#' fit.compak2
 #'
 #' ### Huang et, al (2020) Page 9
 #' \donttest{
@@ -34,8 +35,13 @@
 compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
                           workers = 1L,
                           bandwidth_optim = "KL", ...) {
-  if (!is.null(h) && !is.null(nu) && h != nu) {
-    stop("specify 'h' or 'nu' but not both.")
+  call <- match.call()
+  a.sample_name <- call$a.sample
+  if (sum(is.na(a.sample))!=0){
+    stop('a.sample contains missing values')
+  }
+  if (!is.null(h) && !is.null(nu) && h != 1 / nu) {
+    stop("provide at most one of 'h' or 'nu' but not both. If both are empty, the bandwidth will be selected for you.")
   } else if (!is.null(nu)) {
     h <- 1 / nu
   }
@@ -66,13 +72,17 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
       stop('"bandwidth_optim" can only be "KL" or "CV"')
     }
   } else {
-    warning("The bandwidth_optim option is ignored as user provided a value for h.")
+    warning("The bandwidth_optim option is ignored as user provided a value for h or nu.")
     bandwidth_optim <- "user_specified"
   }
 
   f.cmp <- compak_evalpmf(a.sample = a.sample, x = x, nu = 1 / h, workers = 1)
   out <- list(
-    "f.cmp" = f.cmp$f.cmp, "x" = x, "h" = h, "nu" = 1 / h, data = a.sample,
+    call = call,
+    data_name = a.sample_name,
+    "f.cmp" = f.cmp$f.cmp, "x" = x, "h" = h,
+    "nu" = 1 / h,
+    data = a.sample,
     bandwidth_optim = bandwidth_optim,
     kernel.est = f.cmp$kernel.est
   )

@@ -13,9 +13,12 @@
 #' data(days)
 #' h.KL <- compak_KLbandwidth(days)
 compak_KLbandwidth <- function(a.sample, x = NULL, interval = c(0.025, 1), workers = 1L) {
+  if (sum(is.na(a.sample))!=0){
+    stop('a.sample contains missing values')
+  }
   # fit the Poisson pmf
   mu <- mean(a.sample)
-  sigma <- sd(a.sample)
+  sigma <- stats::sd(a.sample)
   if (is.null(x)) {
     x <- seq(
       from = max(0, floor(mu - 20 * sigma)),

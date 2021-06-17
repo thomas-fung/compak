@@ -1,5 +1,3 @@
-context("Testing the main functions of compak")
-
 data(days)
 range.days <- 20:40
 h.KL <- compak_KLbandwidth(days)
@@ -73,3 +71,24 @@ test_that("Testing the parallel computing setting", {
   expect_equal(f.cmp_CV, f.cmp_CV_parallel)
   expect_equal(f.cmp_KL, f.cmp_KL_parallel)
 })
+
+
+test_that("Testing various error/stop/warning", {
+  expect_error(compak_CVbandwidth(c(days, NA)))
+  expect_warning(compak_CVbandwidth(days, workers = 0.5))
+  expect_error(compak_evalpmf(c(days, NA), h = 1))
+  expect_warning(compak_evalpmf(days, h = 1, workers = 0.5))
+  expect_error(compak_evalpmf(days))
+  expect_error(compak_evalpmf(days, h = 1, nu = 2))
+  expect_error(compak_fitpmf(days, h = 1, nu =2))
+  expect_error(compak_fitpmf(c(days, NA)))
+  expect_warning(compak_fitpmf(days, workers = 0.5))
+  expect_error(compak_fitpmf(days,
+                             bandwidth_optim = "testing"))
+  expect_error(compak_KLbandwidth(c(days, NA)))
+})
+
+test_that("Testing the print function", {
+  expect_snapshot(print.compak(fit.compak_KL))
+})
+

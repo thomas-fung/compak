@@ -2,6 +2,7 @@
 
 S3method(autoplot,compak)
 S3method(plot,compak)
+S3method(print,compak)
 export(compak_CVbandwidth)
 export(compak_KLbandwidth)
 export(compak_evalpmf)
