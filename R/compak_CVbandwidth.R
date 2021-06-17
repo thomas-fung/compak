@@ -14,8 +14,8 @@ compak_CVbandwidth <- function(a.sample, interval = c(0.025, 1), workers = 1L) {
   # performs leave-one-out cross-validation for bandwidth selection
   # inputs a.sample of data
   # interval specifies range of bandwidth to optimize over
-  if (sum(is.na(a.sample))!=0){
-    stop('a.sample contains missing values')
+  if (sum(is.na(a.sample)) != 0) {
+    stop("a.sample contains missing values")
   }
   if (!is.numeric(workers) || floor(workers) != workers || workers < 0) {
     warning("workers must be a positive integer. Resetting it to default = 1.")
@@ -31,19 +31,22 @@ compak_CVbandwidth <- function(a.sample, interval = c(0.025, 1), workers = 1L) {
     n <- length(a.sample)
     f.cv <- matrix(0, nrow = n, ncol = 1)
     nu <- 1 / h
-    if (!is.null(formals(future::plan()))){
-    f.cv <- furrr::future_map_dbl(seq_along(a.sample), ~
-              compak_evalpmf(a.sample[-.x],
-                             x = a.sample[.x], nu = nu,
-                             workers = 1
-              )$f.cmp)
+    if (!is.null(formals(future::plan()))) {
+      f.cv <- furrr::future_map_dbl(seq_along(a.sample), ~
+      compak_evalpmf(a.sample[-.x],
+        x = a.sample[.x], nu = nu,
+        workers = 1
+      )$f.cmp)
     } else {
-      f.cv <- purrr::map_dbl(seq_along(a.sample),
-                             ~ compak_evalpmf(
-                               a.sample[-.x],
-                               x = a.sample[.x],
-                               nu = nu,
-                               workers = 1)$f.cmp)
+      f.cv <- purrr::map_dbl(
+        seq_along(a.sample),
+        ~ compak_evalpmf(
+          a.sample[-.x],
+          x = a.sample[.x],
+          nu = nu,
+          workers = 1
+        )$f.cmp
+      )
     }
     return(-sum(log(f.cv)))
   }

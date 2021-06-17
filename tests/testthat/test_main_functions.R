@@ -80,15 +80,15 @@ test_that("Testing various error/stop/warning", {
   expect_warning(compak_evalpmf(days, h = 1, workers = 0.5))
   expect_error(compak_evalpmf(days))
   expect_error(compak_evalpmf(days, h = 1, nu = 2))
-  expect_error(compak_fitpmf(days, h = 1, nu =2))
+  expect_error(compak_fitpmf(days, h = 1, nu = 2))
   expect_error(compak_fitpmf(c(days, NA)))
   expect_warning(compak_fitpmf(days, workers = 0.5))
   expect_error(compak_fitpmf(days,
-                             bandwidth_optim = "testing"))
+    bandwidth_optim = "testing"
+  ))
   expect_error(compak_KLbandwidth(c(days, NA)))
 })
 
 test_that("Testing the print function", {
   expect_snapshot(print.compak(fit.compak_KL))
 })
-

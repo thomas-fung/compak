@@ -3,7 +3,7 @@
 #' \code{print} method for class \code{compak}.
 #'
 #' @param x an object class 'compak', obtained from a call to \code{compak_fitpmf}.
-#' @param digits numeric; minimum number of significant digits to be used for most numbers.
+#' @param ... currently not being used.
 #' @export
 #'
 #' @details
@@ -11,26 +11,35 @@
 #'
 #' @examples
 #' ## For examples see example(compak_fitpmf)
-#'
-print.compak <- function(x,
-                         digits =
-                           max(3, getOption("digits") - 3)){
+print.compak <- function(x, ...) {
   cat("\nCall: ",
-      paste(deparse(x$call),
-            sep = "\n",
-            collapse = "\n"), "\n", sep = "")
+    paste(deparse(x$call),
+      sep = "\n",
+      collapse = "\n"
+    ), "\n",
+    sep = ""
+  )
   cat("\nData: ", paste(x$data_name), sep = "")
   cat("\nBandwidth: ",
-      paste(deparse(round(x$h, digits))), sep = "")
+    paste(deparse(round(x$h, 4))),
+    sep = ""
+  )
   cat("\nBandwidth selection: ",
-      paste(ifelse(x$bandwidth_optim == "CV", "cross-validation", "Kullback-Leibler divergence")), sep = "")
+    paste(ifelse(x$bandwidth_optim == "CV", "cross-validation", "Kullback-Leibler divergence")),
+    sep = ""
+  )
   cat("\nKernel: Conway-Maxwell-Poisson", sep = "")
   cat("\nRange: [",
-      paste(min(x$x), ", ", max(x$x), "]", sep = "",
-            collapse = "\n"), "\n", sep = "")
+    paste(min(x$x), ", ", max(x$x), "]",
+      sep = "",
+      collapse = "\n"
+    ), "\n",
+    sep = ""
+  )
   cat("\nParameter estimates", "\n",
-      paste(c("nu: ", round(x$nu, digits)),
-            sep = ""), "\n", sep = "")
+    paste(c("nu: ", round(x$nu, 4)),
+      sep = ""
+    ), "\n",
+    sep = ""
+  )
 }
-
-

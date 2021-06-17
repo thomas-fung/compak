@@ -21,12 +21,12 @@
 compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L) {
   # fits CMP_mu discrete kernel pmf P(X = x) smoother for a.sample of counts
   # evaluated at a (vector of) point(s) x
-  if (sum(is.na(a.sample))!=0){
-    stop('a.sample contains missing values')
+  if (sum(is.na(a.sample)) != 0) {
+    stop("a.sample contains missing values")
   }
   if (is.null(h) && is.null(nu)) {
     stop('argument "h" (bandwidth) and "nu" are both missing, with no default. Please specify one of them.')
-  } else if (!is.null(h) && !is.null(nu) && h != 1/nu) {
+  } else if (!is.null(h) && !is.null(nu) && h != 1 / nu) {
     stop("specify 'h' or 'nu' but not both.")
   } else if (!is.null(nu)) {
     h <- 1 / nu
@@ -66,16 +66,18 @@ compak_evalpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL, workers = 1L
   if (workers > 1) {
     future::plan(future::multisession, workers = workers)
   }
-  if (!is.null(formals(future::plan()))){
-  results <- furrr::future_map(keys, ~ compak_evalkernel(.x,
-    counts = counts,
-    x = x, nu = nu
-  ))} else {
+  if (!is.null(formals(future::plan()))) {
+    results <- furrr::future_map(keys, ~ compak_evalkernel(.x,
+      counts = counts,
+      x = x, nu = nu
+    ))
+  } else {
     results <-
       purrr::map(keys, ~ compak_evalkernel(.x,
-                                           counts = counts,
-                                           x = x,
-                                           nu = nu))
+        counts = counts,
+        x = x,
+        nu = nu
+      ))
   }
   if (workers > 1) {
     future::plan(future::sequential)

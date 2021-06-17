@@ -7,6 +7,7 @@
 #'
 #' @return An ggplot object for autoplot.
 #' @import ggplot2
+#' @importFrom rlang .data
 #' @import graphics
 #' @examples
 #' data(days)
@@ -18,13 +19,14 @@ NULL
 #' @rdname compak_graphics
 #' @export
 autoplot.compak <- function(x, ...) {
-  p <- ggplot(data.frame(z = x$data)) +
-    geom_bar(aes(x = z, y = ..count.. / sum(..count..))) +
+  dat <- data.frame(table(x$data)/sum(table(x$data)))
+  p <- ggplot(dat) +
+    geom_col(aes(x = .data$Var1, y = .data$Freq)) +
     geom_pointrange(aes(
-      x = x,
-      y = y,
+      x = .data$x,
+      y = .data$y,
       ymin = 0,
-      ymax = y,
+      ymax = .data$y,
       colour = "compak fit"
     ),
     colour = "red",

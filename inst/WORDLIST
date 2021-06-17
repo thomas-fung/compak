@@ -2,6 +2,7 @@ Aleurodicus
 Biometrika
 CMD
 CMP
+COM
 Chebyshev's
 Codecov
 Github
@@ -13,6 +14,7 @@ Leidler
 Lifecycle
 Poisson
 Russel
+autoplot
 cmp
 crepitans
 devtools

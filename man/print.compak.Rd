@@ -4,12 +4,12 @@
 \alias{print.compak}
 \title{Print Values of COM-Poisson Model}
 \usage{
-\method{print}{compak}(x, digits = max(3, getOption("digits") - 3))
+\method{print}{compak}(x, ...)
 }
 \arguments{
 \item{x}{an object class 'compak', obtained from a call to \code{compak_fitpmf}.}
 
-\item{digits}{numeric; minimum number of significant digits to be used for most numbers.}
+\item{...}{currently not being used.}
 }
 \description{
 \code{print} method for class \code{compak}.
@@ -19,5 +19,4 @@
 }
 \examples{
 ## For examples see example(compak_fitpmf)
-
 }

@@ -17,7 +17,7 @@ results_flat <- tibble(y = flatten_dbl(results)) %>%
 
 p <- ggplot(results_flat) +
   geom_bar(aes(x = a.sample, y = ..count.. / sum(..count..)), data = tibble(a.sample = a.sample), size = 0.5) +
-  #geom_rug(aes(x = loc, colour = factor(loc)))+
+  # geom_rug(aes(x = loc, colour = factor(loc)))+
   geom_point(aes(x = loc, y = -0.015, colour = factor(loc)), size = 0.5) +
   geom_col(aes(
     x = x, y = y / max(a.sample + 1),

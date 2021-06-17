@@ -37,8 +37,8 @@ compak_fitpmf <- function(a.sample, x = NULL, h = NULL, nu = NULL,
                           bandwidth_optim = "KL", ...) {
   call <- match.call()
   a.sample_name <- call$a.sample
-  if (sum(is.na(a.sample))!=0){
-    stop('a.sample contains missing values')
+  if (sum(is.na(a.sample)) != 0) {
+    stop("a.sample contains missing values")
   }
   if (!is.null(h) && !is.null(nu) && h != 1 / nu) {
     stop("provide at most one of 'h' or 'nu' but not both. If both are empty, the bandwidth will be selected for you.")
