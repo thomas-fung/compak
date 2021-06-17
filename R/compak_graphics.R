@@ -20,6 +20,7 @@ NULL
 #' @export
 autoplot.compak <- function(x, ...) {
   dat <- data.frame(table(x$data)/sum(table(x$data)))
+  dat$Var1 <- as.numeric(levels(dat$Var1))
   p <- ggplot(dat) +
     geom_col(aes(x = .data$Var1, y = .data$Freq)) +
     geom_pointrange(aes(
