@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# compak
+# compak: Conway-Maxwell-Poisson Associated Kernal
 
 # compak <img src='man/figures/logo.svg' align="right" height="139" />
 
