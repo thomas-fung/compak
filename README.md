@@ -38,6 +38,11 @@ devtools::install_github("thomas-fung/compak")
 library(compak)
 ```
 
+## Usage
+
+A reference manual and some examples are available at
+[thomas-fung.github.io/compak](https://thomas-fung.github.io/compak/).
+
 ## Citation
 
 If you use this package to analyse your data, please use the following
